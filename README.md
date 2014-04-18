@@ -1,4 +1,4 @@
-Node Worker Bootstrap
+Node App Bootstrap
 =====================
 
 An easy way to bootstrap workers in a clustered environment. Allows you to sandbox your tasks with a single app runtime.
@@ -60,4 +60,5 @@ config.load ->
         method app, task, cb (err)->
           rabbitWorker.submit 
 ```
+
 

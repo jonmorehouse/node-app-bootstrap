@@ -11,7 +11,14 @@ Thoughts
 * it should be so simple to get up and running anyway ... it shouldn't be a huge deal
 * this is only for external services and such!
 
-Example
+Goals
+-----
+
+* make environments easily managed
+* easily reproducible for testing
+* connect/disconnect of many different services is complicated. Unify under one module
+
+Example 
 -------
 
 ```
@@ -24,7 +31,8 @@ config.load ->
   # this will load the app up as needed
   # start loggers/error handlers
   # start daemon trigger / controller
-  # start up databases
+  # start up databases [psql, redis]
+  # start up zerorpc connections 
   # start up rabbit connections, queues, exchanges
   # start up rabbit worker (ie: subscribe to queues)
   bootstrap (app)->
@@ -51,7 +59,5 @@ config.load ->
       else
         method app, task, cb (err)->
           rabbitWorker.submit 
-
 ```
-
 

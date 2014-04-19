@@ -1,0 +1,28 @@
+{
+  "name": "node-app-bootstrap",
+  "version": "0.0.0",
+  "description": "App bootstrap/run module",
+  "main": "jslib/index.js",
+  "scripts": {
+    "test": "cake test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonmorehouse/node-app-bootstrap.git"
+  },
+  "author": "Jon Morehouse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonmorehouse/node-app-bootstrap/issues"
+  },
+  "homepage": "https://github.com/jonmorehouse/node-app-bootstrap",
+  "dependencies": {
+    "amqp": "^0.2.0",
+    "async": "^0.7.0",
+    "node-config": "git://github.com/jonmorehouse/node-config",
+    "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.8.6"
+  }
+}

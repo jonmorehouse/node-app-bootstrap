@@ -38,6 +38,9 @@ config.load ->
   # start up rabbit worker (ie: subscribe to queues)
   bootstrap (app)->
 
+    # app.error "msg", fatal=false
+    # app.log "msg", level=info
+
     # handle graceful shutdowns
     # ie: app.error stream called app.triggerClose
     app.on "close", (err)->

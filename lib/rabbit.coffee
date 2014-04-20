@@ -7,7 +7,10 @@ exchanges = ->
 
 queues = ->
 
+
 exports.setUp = (app, cb)->
+
+  #p app.test
 
   cb?()
 

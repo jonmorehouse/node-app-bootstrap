@@ -19,6 +19,18 @@
     };
 
     function App(cb) {
+      var component, functions, key;
+      functions = (function() {
+        var _ref, _results;
+        _ref = App.components;
+        _results = [];
+        for (key in _ref) {
+          component = _ref[key];
+          _results.push(component["function"]);
+        }
+        return _results;
+      })();
+      p(functions);
       App.__super__.constructor.apply(this, arguments);
     }
 
@@ -32,38 +44,6 @@
 
   })(events.EventEmitter);
 
-  /*
-  class App extends bootstrap.App
-  
-    @components["rabbit"] = require "./my_custom_rabbit_wrapper"
-  
-    constructor: (cb)->
-  
-      # bootstrap app
-      super
-      # bootstrap app
-      cb?()
-  
-    close: (cb)->
-  
-      # close down your own app
-      super
-  
-  # now startup application
-  new App opts, (err, app)->
-  
-    #app is now ready!
-    app.doThings
-  
-    app.on "close", (msg)->
-  
-      # shutdown app
-      # trigger close
-  
-    app.error msg, FATAL=false
-  
-    app.logger app.logger.SEVERE, msg
-  */
-
+  module.exports = App;
 
 }).call(this);

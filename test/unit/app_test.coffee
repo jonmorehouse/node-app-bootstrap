@@ -1,13 +1,18 @@
 bootstrap = require "../bootstrap"
 config = require 'node-config'
+app = libRequire 'app'
 
 module.exports =
 
   setUp: (cb)->
 
-    bootstrap.setUp ->
+    bootstrap.setUp =>
 
-      cb?()
+      new app.App =>
+
+        p "HERE"
+      
+        cb?()
 
   tearDown: (cb)->
 

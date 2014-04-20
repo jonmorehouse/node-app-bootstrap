@@ -11,6 +11,10 @@ class App extends events.EventEmitter
 
   constructor: (cb)->
 
+    functions = (component.function for key, component of App.components)
+
+    p functions
+
     super
 
   triggerClose: (msg)->
@@ -18,42 +22,6 @@ class App extends events.EventEmitter
 
   close: (cb)->
 
-###
-class App extends bootstrap.App
-
-  @components["rabbit"] = require "./my_custom_rabbit_wrapper"
-
-  constructor: (cb)->
-
-    # bootstrap app
-    super
-    # bootstrap app
-    cb?()
-
-  close: (cb)->
-
-    # close down your own app
-    super
-
-# now startup application
-new App opts, (err, app)->
-
-  #app is now ready!
-  app.doThings
-
-  app.on "close", (msg)->
-
-    # shutdown app
-    # trigger close
-
-  app.error msg, FATAL=false
-
-  app.logger app.logger.SEVERE, msg
-
-###
 
 
-  
-
-
-
+module.exports = App

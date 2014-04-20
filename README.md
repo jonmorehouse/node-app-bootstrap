@@ -10,6 +10,7 @@ Thoughts
 * take out the rabbit runner - thats a huge dependency that will complicate this 
 * it should be so simple to get up and running anyway ... it shouldn't be a huge deal
 * this is only for external services and such!
+* this application favors code stability / ease of development over speed. Therefore everything in startup will be async and will be run in series (this could result in a bit of a slower startup, but for now should hopefully be fine)
 
 Goals
 -----

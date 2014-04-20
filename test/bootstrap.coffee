@@ -3,6 +3,7 @@ amqp = require 'amqp'
 async = require 'async'
 fs = require 'fs'
 stream = require 'stream'
+config = require 'node-config'
 
 # print out all call stack errors - this helps a ton!
 process.on 'uncaughtException', (err)->
@@ -14,5 +15,19 @@ global.p = console.log
 global.libRequire = (_path)->
   return require path.join baseDirectory, "lib", _path
 
+setUp = 
+  config: (cb)->
 
+    cb?()
+
+tearDown = {}
+
+
+module.exports = 
+
+  setUp: (cb)->
+
+    async.waterfall (_function for key, _function of setUp), (err)->
+      p err if err
+      cb?()
 

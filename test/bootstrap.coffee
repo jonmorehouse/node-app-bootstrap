@@ -15,5 +15,3 @@ global.libRequire = (_path)->
   return require path.join baseDirectory, "lib", _path
 
 
-
-Temp

@@ -10,21 +10,20 @@ class App extends events.EventEmitter
     #paperTrail: require "./paper_trail"
     #airBrake: require "./air_brake"
 
-  constructor: (cb)->
-
+  constructor: (cb) ->
     super
     @_caller "setUp", cb
 
-  close: (cb)->
+  close: (cb) ->
 
     # if there are listeners
     if @listeners("close").length > 0
-      @emit "close", (cb)=>
+      @emit "close", => 
         @_caller "tearDown", cb
     else 
       @_caller "tearDown", cb
 
-  _caller: (method, cb)->
+  _caller: (method, cb) ->
 
     # grab all the relevant functions
     functions = (component[method] for key, component of App.components)
@@ -35,4 +34,3 @@ class App extends events.EventEmitter
       cb? null, @
 
 module.exports = App
-

@@ -6,11 +6,10 @@ App = libRequire 'app'
 module.exports = 
 
   # global setup
-  setUp: (cb)=>
-
+  setUp: (cb) =>
     # initailize spy and spy counter 
     @called = 0
-    @spy = (app, cb)=>
+    @spy = (app, cb) =>
       @called += 1
       cb?()
 
@@ -21,59 +20,55 @@ module.exports =
       obj.setUp = @spy
       obj.tearDown = @spy
       
-    cb?()
+    new App (err, app) =>
+      @app = app
+      cb?()
 
-  tearDown: (cb)=>
-
+  tearDown: (cb) =>
     App.components = @components
     cb?()
 
   # bootstrap suite - make sure the app bootstraps properly
-  bootstrap_suite: 
-
-    setUp: (cb)=>
-      new App (err, app)=>
-        @app = app
-        cb?()
-
-    tearDown: (cb)=>
-      
+  suite: 
+    tearDown: (cb) =>
       @app.close =>
         cb?()
 
-    # ensure that all teh setUp methods are called
-    testBootstrappedProperly: (test)=>
-      
+    # ensure that all the setUp methods are called
+    testBootstrappedProperly: (test) =>
       test.equals @called, (key for key of @components).length
+      do test.done
+  
+  suite_teardown:
+    testTeardownsCalled: (test) =>
+
+      # make sure all teardown functions were called
       do test.done
 
   # closing suite - make sure that the event emissions are called as needed
   close_suite: 
-
-    setUp: (cb)=>
-      new App (err, app)=>
-        @app = app
-        cb?()
-
-    testCloseEmission: (test)=>
+    # call close with a cb
+    # listener is notified / passed a cb
+    # it runs cb which shuts down app and then calls the close cb (if passed)
+    testCloseEmission: (test) =>
 
       called = 0
-      @app.on "close", (cb)=>
-
+      @app.on "close", (cb) =>
         test.equals true, cb?
         test.equals 0, called
         called += 1
         cb?()
 
       # final callback
-      _ = (cb)->
+      _ = (cb) ->
         test.equals 1, called
         do test.done
 
       @app.close _
 
-    testCloseCall: (test)=>
+    testCloseCall: (test) =>
 
-      do test.done
+      @app.close =>
+        do test.done
 
 

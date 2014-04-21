@@ -8,13 +8,13 @@ exchanges = ->
 queues = ->
 
 
-exports.setUp = (app, cb)->
+exports.setUp = (app, cb) ->
 
   #p app.test
 
   cb?()
 
 
-exports.tearDown = (app, cb)->
+exports.tearDown = (app, cb) ->
 
   cb?()

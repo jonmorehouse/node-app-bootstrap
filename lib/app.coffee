@@ -27,7 +27,7 @@ class App extends events.EventEmitter
     functions = (component[method] for key, component of App.components)
 
     # call each function and bootstrap it properly
-    async.each functions, ((method, cb)=> method @, cb), (err)=>
+    async.each functions, ((method, cb) => method @, cb), (err) =>
       return cb err if err
       cb? null, @
 

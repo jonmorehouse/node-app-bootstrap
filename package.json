@@ -23,6 +23,8 @@
     "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger"
   },
   "devDependencies": {
-    "nodeunit": "^0.8.6"
+    "extend": "^1.2.1",
+    "nodeunit": "^0.8.6",
+    "sinon": "^1.9.1"
   }
 }

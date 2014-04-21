@@ -3,17 +3,25 @@ nodeunit = require 'nodeunit'
 {print} = require 'sys'
 bootstrap = require './test/bootstrap'
 
+runner = (command)->
+
+  command.stderr.on 'data', (data)->
+    print data.toString()
+
+  command.stdout.on 'data', (data)->
+    print data.toString()
+
 task "test", "Run all tests", ->
 
   reporter = nodeunit.reporters.verbose
   reporter.run ["test/unit"]
 
+task "lint", "Lint project", ->
+
+  runner spawn 'coffeelint', ['-r', 'lib']
+  runner spawn 'coffeelint', ['-r', 'test']
+
 task "build", "Build jslib", ->
 
-  coffee = spawn 'coffee', ['-c', '-o', 'jslib', 'lib']
-  coffee.stderr.on 'data', (data)->
-    print data.toString()
-
-  coffee.stdout.on 'data', (data)->
-    print data.toString()
+  runner spawn 'coffee', ['-c', '-o', 'jslib', 'lib']
 

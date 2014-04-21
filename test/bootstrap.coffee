@@ -6,32 +6,31 @@ stream = require 'stream'
 config = require 'node-config'
 
 # print out all call stack errors - this helps a ton!
-process.on 'uncaughtException', (err)->
+process.on 'uncaughtException', (err) ->
   console.error err.stack
 
 # initialize global variables for helping out with tests
 global.baseDirectory = path.resolve path.join __dirname, ".."
 global.p = console.log
-global.libRequire = (_path)->
+global.libRequire = (_path) ->
   return require path.join baseDirectory, "lib", _path
 
 setUp = 
-  config: (cb)->
+  config: (cb) ->
 
     cb?()
 
 tearDown = {}
 
-runner = (methodObj, cb)->
-  async.waterfall (_function for key, _function of methodObj), (err)->
+runner = (methodObj, cb) ->
+  async.waterfall (_function for key, _function of methodObj), (err) ->
     p err if err
     cb?()
 
 module.exports = 
 
-  setUp: (cb)->
+  setUp: (cb) ->
     runner setUp, cb
-  tearDown: (cb)->
+  tearDown: (cb) ->
     runner tearDown, cb
-
 

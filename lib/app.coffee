@@ -15,7 +15,6 @@ class App extends events.EventEmitter
     @_caller "setUp", cb
 
   close: (cb) ->
-
     # if there are listeners
     if @listeners("close").length > 0
       @emit "close", => 
@@ -24,7 +23,6 @@ class App extends events.EventEmitter
       @_caller "tearDown", cb
 
   _caller: (method, cb) ->
-
     # grab all the relevant functions
     functions = (component[method] for key, component of App.components)
 

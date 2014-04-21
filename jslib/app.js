@@ -23,7 +23,7 @@
     App.prototype.close = function(cb) {
       var _this = this;
       if (this.listeners("close").length > 0) {
-        return this.emit("close", function(cb) {
+        return this.emit("close", function() {
           return _this._caller("tearDown", cb);
         });
       } else {

@@ -22,12 +22,16 @@ setUp =
 
 tearDown = {}
 
+runner = (methodObj, cb)->
+  async.waterfall (_function for key, _function of methodObj), (err)->
+    p err if err
+    cb?()
 
 module.exports = 
 
   setUp: (cb)->
+    runner setUp, cb
+  tearDown: (cb)->
+    runner tearDown, cb
 
-    async.waterfall (_function for key, _function of setUp), (err)->
-      p err if err
-      cb?()
 

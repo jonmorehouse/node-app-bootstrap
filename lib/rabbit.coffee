@@ -1,19 +1,47 @@
 config = require 'node-config'
 amqp = require 'amqp'
+extend = require 'extend'
 
-conn = ->
+###
+Assumptions
+  1 rabbit connection
+  1+ queue
+  1+ exchange
 
-exchanges = ->
+Example
+  rabbit
+    host:
+    port:
+    queues: [
+      name:
+      exchange: 
+      opts:
+    ]
+    exchanges: [
+      name:
+      opts:
+    ]
+###
 
-queues = ->
+conn =
+  setUp: (app, cb) ->
 
+  tearDown: (app, cb) ->
+
+exchanges = 
+  setUp: (app, obj, cb)->
+
+
+  tearDown: (queue, cb)->
+
+queues = (app) ->
 
 exports.setUp = (app, cb) ->
 
-  #p app.test
+  if not app.rabbit?
+    return cb? null, app
 
   cb?()
-
 
 exports.tearDown = (app, cb) ->
 

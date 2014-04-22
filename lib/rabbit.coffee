@@ -1,6 +1,7 @@
 config = require 'node-config'
 amqp = require 'amqp'
 extend = require 'extend'
+async = require 'async'
 
 ###
 Assumptions
@@ -23,25 +24,37 @@ Example
     ]
 ###
 
-conn =
+connection =
   setUp: (app, cb) ->
 
   tearDown: (app, cb) ->
 
-exchanges = 
+exchange = 
   setUp: (app, obj, cb)->
+
+    # if more than one exchange - then call this function multiple times
 
 
   tearDown: (queue, cb)->
 
-queues = (app) ->
+queue = (app) ->
+  setUp: (app, cb) ->
+    # here I am
+
+  tearDown: (app, cb) ->
+    # 
+
 
 exports.setUp = (app, cb) ->
 
   if not app.rabbit?
     return cb? null, app
 
-  cb?()
+  # check for connection
+  async.waterfall [conn.setUp, exchange.setUp, queue.setUp], (cb)->
+
+    cb?()
+
 
 exports.tearDown = (app, cb) ->
 

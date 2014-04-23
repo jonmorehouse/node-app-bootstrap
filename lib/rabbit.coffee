@@ -26,6 +26,7 @@ Example
 
 connection =
   setUp: (app, cb) ->
+    cb?()
 
   tearDown: (app, cb) ->
 
@@ -33,6 +34,7 @@ exchange =
   setUp: (app, obj, cb)->
 
     # if more than one exchange - then call this function multiple times
+    cb?()
 
 
   tearDown: (queue, cb)->
@@ -40,6 +42,7 @@ exchange =
 queue = (app) ->
   setUp: (app, cb) ->
     # here I am
+    cb?()
 
   tearDown: (app, cb) ->
     # 

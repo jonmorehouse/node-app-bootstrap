@@ -1,3 +1,3 @@
 async = require 'async'
 
-module.exports = 
+module.exports = {}

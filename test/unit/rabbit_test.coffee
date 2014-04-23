@@ -6,7 +6,6 @@ module.exports =
 
   setUp: (cb) ->
 
-    c.
 
     cb?()
 

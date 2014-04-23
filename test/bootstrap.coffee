@@ -17,7 +17,6 @@ global.libRequire = (_path) ->
 
 setUp = 
   config: (cb) ->
-
     cb?()
 
 tearDown = {}

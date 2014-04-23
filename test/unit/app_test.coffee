@@ -41,7 +41,6 @@ module.exports =
   
   suite_teardown:
     testTeardownsCalled: (test) =>
-
       # make sure all teardown functions were called
       do test.done
 
@@ -51,7 +50,6 @@ module.exports =
     # listener is notified / passed a cb
     # it runs cb which shuts down app and then calls the close cb (if passed)
     testCloseEmission: (test) =>
-
       called = 0
       @app.on "close", (cb) =>
         test.equals true, cb?
@@ -67,7 +65,6 @@ module.exports =
       @app.close _
 
     testCloseCall: (test) =>
-
       @app.close =>
         do test.done
 

@@ -29,16 +29,13 @@ connection =
     cb?()
 
   tearDown: (app, cb) ->
-
 exchange = 
-  setUp: (app, obj, cb)->
-
+  setUp: (app, obj, cb) ->
     # if more than one exchange - then call this function multiple times
     cb?()
 
 
-  tearDown: (queue, cb)->
-
+  tearDown: (queue, cb) ->
 queue = (app) ->
   setUp: (app, cb) ->
     # here I am
@@ -49,16 +46,13 @@ queue = (app) ->
 
 
 exports.setUp = (app, cb) ->
-
   if not app.rabbit?
     return cb? null, app
 
   # check for connection
-  async.waterfall [conn.setUp, exchange.setUp, queue.setUp], (cb)->
-
+  async.waterfall [conn.setUp, exchange.setUp, queue.setUp], (cb) ->
     cb?()
 
 
 exports.tearDown = (app, cb) ->
-
   cb?()

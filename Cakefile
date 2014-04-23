@@ -1,14 +1,11 @@
 nodeunit = require 'nodeunit'
-{spawn} = require 'child_process'
+{spawn, exec} = require 'child_process'
 {print} = require 'sys'
 bootstrap = require './test/bootstrap'
 
-runner = (command)->
-
+runner = (commandString)->
+  command = exec commandString
   command.stderr.on 'data', (data)->
-    print data.toString()
-
-  command.stdout.on 'data', (data)->
     print data.toString()
 
 task "test", "Run all tests", ->
@@ -18,10 +15,10 @@ task "test", "Run all tests", ->
 
 task "lint", "Lint project", ->
 
-  runner spawn 'coffeelint', ['-r', 'lib']
-  runner spawn 'coffeelint', ['-r', 'test']
+  command = "find . -type f -path ./node_modules -prune -o -name \"*.coffee\" | xargs coffeescript_linter {}"
+  runner command
 
 task "build", "Build jslib", ->
 
-  runner spawn 'coffee', ['-c', '-o', 'jslib', 'lib']
+  runner "coffee -c -o jslib lib"
 

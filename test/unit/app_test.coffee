@@ -14,7 +14,7 @@ module.exports =
       cb?()
 
     # switch out the components as needed
-    @components = extend {}, App.components
+    @components = extend true, {}, App.components
     # now inject the spy into the correct app component methods
     for key, obj of App.components
       obj.setUp = @spy

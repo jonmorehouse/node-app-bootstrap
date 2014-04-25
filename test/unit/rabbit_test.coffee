@@ -4,6 +4,7 @@ App = libRequire 'app'
 
 bootstrap = (test, cb) =>
   c.set "rabbit", @obj
+
   new App (err, app) =>
     test.equal false, err?
     test.equal true, app?
@@ -12,35 +13,29 @@ bootstrap = (test, cb) =>
 
 module.exports = 
 
-  setUp: (cb) =>
-    cb?()
-
   tearDown: (cb) =>
-    cb?()
+    @app.close =>
+      cb?()
 
   connSuite:
 
     objTest: (test) =>
       @obj = 
-        conn:
-          host: "localhost"
-          port: 5672
+        host: "localhost"
+        port: 5672
 
       bootstrap test, =>
-        
-        p @app
+
         do test.done
 
     connObjTest: (test) ->
       do test.done
 
-
     errTest: (test) ->
       do test.done
 
-
-
-
+  exchangeSuite: {}
+  queueSuite: {}
 
 
 

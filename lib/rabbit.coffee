@@ -44,16 +44,13 @@ connection =
       cb? err if err
 
   tearDown: (cb) =>
-
-    # check if conncetion exists
+    # check if connection exists
     if not @app.rabbit.conn?
       return cb?()
 
     # now disconnect from amqp
     @app.rabbit.conn.disconnect()
     delete @app.rabbit.conn
-    
-    # disconnetct app's connection
     cb?()
 
 exchange = 
@@ -78,16 +75,14 @@ exports.setUp = (@app, cb) =>
   if not c.rabbit?
     return cb? null, @app
 
-  # check for connection
+  # call all setUp methods
   async.waterfall [connection.setUp, exchange.setUp, queue.setUp], (err) =>
     cb err if err
     cb?()
 
 exports.tearDown = (@app, cb) =>
-  # call all the correct methods
+  # call all tearDown methods
   async.waterfall [connection.tearDown, exchange.tearDown, queue.tearDown], (err) =>
     cb err if err
     cb?()
-
-
 

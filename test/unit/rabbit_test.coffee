@@ -27,24 +27,24 @@ module.exports =
     else
       cb?()
 
-  connSuite:
-    # pass in credentials for a connection
-    objTest: (test) =>
+  #connSuite:
+    ## pass in credentials for a connection
+    #objTest: (test) =>
 
-      bootstrap test, =>
-        # now make sure that the connection exists
-        test.notEqual false, @app.rabbit.conn?
-        do test.done
+      #bootstrap test, =>
+        ## now make sure that the connection exists
+        #test.notEqual false, @app.rabbit.conn?
+        #do test.done
 
-    # pass in an already built out object
-    connObjTest: (test) =>
+    ## pass in an already built out object
+    #connObjTest: (test) =>
 
-      conn = amqp.createConnection {host: @obj.host, port: @obj.port}
-      conn.on "ready", =>
-        @obj.conn = conn
-        # bootstrap app with the connection now
-        bootstrap test, =>
-          do test.done
+      #conn = amqp.createConnection {host: @obj.host, port: @obj.port}
+      #conn.on "ready", =>
+        #@obj.conn = conn
+        ## bootstrap app with the connection now
+        #bootstrap test, =>
+          #do test.done
 
   exchangeSuite: 
 

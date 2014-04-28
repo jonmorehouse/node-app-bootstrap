@@ -47,10 +47,15 @@
         port: parseInt(c.rabbit.port)
       });
       conn.on("ready", function() {
+        var _base;
+        if ((_base = _this.app).rabbit == null) {
+          _base.rabbit = {};
+        }
         _this.app.rabbit.conn = conn;
         return typeof cb === "function" ? cb() : void 0;
       });
       return conn.on("error", function(err) {
+        conn.disconnect();
         if (err) {
           return typeof cb === "function" ? cb(err) : void 0;
         }
@@ -91,8 +96,44 @@
   };
 
   exchange = {
+    newExchange: function(obj, cb) {
+      var missing, opts;
+      missing = shared.missingParameters(["name"], obj);
+      if (missing) {
+        return cb(new Error(missing));
+      }
+      opts = {
+        confirm: true
+      };
+      if (obj.opts != null) {
+        extend(true, opts, obj.opts);
+      }
+      return cb();
+    },
     setUp: function(cb) {
-      return typeof cb === "function" ? cb() : void 0;
+      var key, obj, objs;
+      if (c.rabbit.exchange != null) {
+        return exchange.newExchange(c.rabbit.exchange, cb);
+      } else if (c.rabbit.exchanges != null) {
+        objs = (function() {
+          var _ref, _results;
+          _ref = c.rabbit.exchanges;
+          _results = [];
+          for (key in _ref) {
+            obj = _ref[key];
+            _results.push(obj);
+          }
+          return _results;
+        })();
+        return async.each(objs, exchange.newExchange, function(err) {
+          if (err) {
+            return typeof cb === "function" ? cb(err) : void 0;
+          }
+          return typeof cb === "function" ? cb() : void 0;
+        });
+      } else {
+        return typeof cb === "function" ? cb() : void 0;
+      }
     },
     tearDown: function(cb) {
       return typeof cb === "function" ? cb() : void 0;
@@ -124,8 +165,10 @@
   exports.tearDown = function(app, cb) {
     _this.app = app;
     return async.waterfall([connection.tearDown, exchange.tearDown, queue.tearDown], function(err) {
-      if (err) {
-        cb(err);
+      if (err != null) {
+        if (typeof cb === "function") {
+          cb(err);
+        }
       }
       return typeof cb === "function" ? cb() : void 0;
     });

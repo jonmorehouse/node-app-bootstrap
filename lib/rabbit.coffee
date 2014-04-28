@@ -46,7 +46,6 @@ connection =
       return cb? err if err
 
   setUp: (cb) =>
-
     conn = (c.rabbit[key] for key in ["conn", "connection"] when c.rabbit[key]?)[0]
 
     if not conn?
@@ -68,9 +67,8 @@ connection =
 
 exchange = 
   newExchange: (obj, cb) =>
-
     # make sure the correct params are passed
-    missing = shared.missingParameters ["name"], obj
+    missing = shared.missingParameters ["name", "key"], obj
     if missing
       return cb new Error missing
 
@@ -82,19 +80,19 @@ exchange =
       extend true, opts, obj.opts
 
     # now create exchange
-    #exchange = @app.rabbit.conn.exchange obj.name, opts
-    #p exchange
-    return do cb
-    #exchange.on "open", =>
-      ## link up the exchange
-      ## generate the key
-      ##@app.rabbit[if obj.key? then obj.key else obj.name] = exchange
-      #cb?()
+    e = @app.rabbit.conn.exchange obj.name, opts
+    e.on "open", =>
+      # link up the exchange
+      # generate the key
+      @app.rabbit[if obj.key? then obj.key else obj.name] = e
+      # create an array of the queues 
+      @app.rabbit.exchanges ?= []
+      @app.rabbit.exchanges.push e
+      return do cb
 
-    #return do cb
-    ## handle errors accordingly 
-    #exchange.on "error", (err)=>
-      #return cb err if err
+    # handle errors accordingly 
+    e.on "error", (err)=>
+      return cb err if err
 
   setUp: (cb) =>
     if c.rabbit.exchange? 
@@ -110,6 +108,7 @@ exchange =
       cb?()
 
   tearDown: (cb) =>
+
     # if more than one exchange - then call this function multiple times
     cb?()
 
@@ -125,7 +124,6 @@ queue =
 exports.setUp = (@app, cb) =>
   if not c.rabbit?
     return cb? null, @app
-
   # call all setUp methods
   async.waterfall [connection.setUp, exchange.setUp, queue.setUp], (err) =>
     cb err if err
@@ -133,8 +131,8 @@ exports.setUp = (@app, cb) =>
 
 exports.tearDown = (@app, cb) =>
   # call all tearDown methods
-  async.waterfall [connection.tearDown, exchange.tearDown, queue.tearDown], (err) =>
-    cb? err if err?
+  async.waterfall [queue.tearDown, exchange.tearDown, connection.tearDown], (err) =>
+    return cb? err if err?
     cb?()
 
 

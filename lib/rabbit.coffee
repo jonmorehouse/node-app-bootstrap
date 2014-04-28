@@ -82,12 +82,7 @@ exchange =
     # now create exchange
     e = @app.rabbit.conn.exchange obj.name, opts
     e.on "open", =>
-      # link up the exchange
-      # generate the key
-      @app.rabbit[if obj.key? then obj.key else obj.name] = e
-      # create an array of the queues 
-      @app.rabbit.exchanges ?= []
-      @app.rabbit.exchanges.push e
+      @app.rabbit[obj.key] = e
       return do cb
 
     # handle signin error
@@ -120,20 +115,33 @@ exchange =
     cb?()
     
 queue = 
-  newQueue: (obj) =>
+  newQueue: (obj, cb) =>
+    
+    missing = shared.missingParameters ["name", "key"], obj
+    if missing? 
+      return cb new Error missing
 
-    # first create queue
-    # second check to see if we need to bind
-    cb?()
+    # generate options ...
+    opts = if obj.opts? then obj.opts else {}
+    # now create queue
+    @app.rabbit.conn.queue obj.name, opts, (q) =>
+      @app.rabbit[obj.key] = q
+      if not obj.exchange?
+        return cb?()
+      # bind to the correct exchange
+      rk = if obj.routing? then obj.routing else "*"
+      q.bind obj.exchange, rk, (q)=>
+        cb?()
 
   setUp: (cb) =>
     # normalize queue/queues objects
     q = if c.rabbit.queues? then c.rabbit.queues else if c.rabbit.queue? then [c.rabbit.queue] else null
     if not q?
       return cb?()
-    p "queus"
-    # check 
-    cb?()
+    # now build out each queue
+    async.each q, queue.newQueue, (err) =>
+      return cb? err if err
+      cb?()
 
   tearDown: (cb) =>
     # grab the queue
@@ -146,7 +154,7 @@ exports.setUp = (@app, cb) =>
     return cb? null, @app
   # call all setUp methods
   async.waterfall [connection.setUp, exchange.setUp, queue.setUp], (err) =>
-    cb err if err
+    return cb? err if err?
     cb?()
 
 exports.tearDown = (@app, cb) =>

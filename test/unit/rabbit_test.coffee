@@ -86,17 +86,23 @@ module.exports =
         opts: {} # options to be passed to the amqp object on creation
       @obj.queue = 
         name: "test-queue"
+        key: "testQueue"
         opts: {} # arr
       cb?()
 
     queueTest: (test) =>
+      bootstrap test, =>
+        test.equal true, @app.rabbit[@obj.queue.key]?
 
-    
-      do test.done
+        do test.done
 
     boundQueueTest: (test) =>
 
-      do test.done
+      # link up the exchange name accordingly here
+      @obj.queue.exchange = @obj.exchange.name
+      bootstrap test, =>
+
+        do test.done
 
     queuesTest: (test) =>
 

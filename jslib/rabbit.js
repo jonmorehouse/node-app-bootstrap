@@ -97,8 +97,8 @@
 
   exchange = {
     newExchange: function(obj, cb) {
-      var missing, opts;
-      missing = shared.missingParameters(["name"], obj);
+      var e, missing, opts;
+      missing = shared.missingParameters(["name", "key"], obj);
       if (missing) {
         return cb(new Error(missing));
       }
@@ -108,7 +108,21 @@
       if (obj.opts != null) {
         extend(true, opts, obj.opts);
       }
-      return cb();
+      e = _this.app.rabbit.conn.exchange(obj.name, opts);
+      e.on("open", function() {
+        var _base;
+        _this.app.rabbit[obj.key != null ? obj.key : obj.name] = e;
+        if ((_base = _this.app.rabbit).exchanges == null) {
+          _base.exchanges = [];
+        }
+        _this.app.rabbit.exchanges.push(e);
+        return cb();
+      });
+      return e.on("error", function(err) {
+        if (err) {
+          return cb(err);
+        }
+      });
     },
     setUp: function(cb) {
       var key, obj, objs;
@@ -164,11 +178,9 @@
 
   exports.tearDown = function(app, cb) {
     _this.app = app;
-    return async.waterfall([connection.tearDown, exchange.tearDown, queue.tearDown], function(err) {
+    return async.waterfall([queue.tearDown, exchange.tearDown, connection.tearDown], function(err) {
       if (err != null) {
-        if (typeof cb === "function") {
-          cb(err);
-        }
+        return typeof cb === "function" ? cb(err) : void 0;
       }
       return typeof cb === "function" ? cb() : void 0;
     });

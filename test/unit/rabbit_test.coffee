@@ -47,33 +47,59 @@ module.exports =
           #do test.done
 
   exchangeSuite: 
-
     exchangeTest: (test) =>
       @obj.exchange =
         name: "test"
         key: "testExchange"
-        opts: {} # array of options to be passed in
+        opts: {} # options object to be passed directly to amqp 
 
       bootstrap test, =>
         do test.done
 
-    #exchangesTest: (test) =>
+    exchangesTest: (test) =>
+      @obj.exchanges = [
+        { 
+          name: "test"
+          key: "testExchange"
+          opts: {}
+        },
+        {
+          name: "test1"
+          key: "testExchange1"
+          opts: {}
+        }
+      ]
+      bootstrap test, =>
+        for obj in @obj.exchanges
+          test.notEqual false, @app.rabbit[obj.key]?
+          test.notEqual false, 
+        do test.done
 
-      #@obj.exchanges = [
-        #{ 
-          #name: "test"
-          #key: "testExchange"
-          #opts: {}
-        #},
-        #{
-          #name: "test1"
-          #key: "testExchange1"
-          #opts: {}
-        #}
-      #]
 
-      #bootstrap test, =>
-        #do test.done
+  queueSuite: 
+    
+    setUp: (cb) =>
+      # initailize objecst for testing this out
+      @obj.exchange =
+        name: "test"
+        key: "testExchange"
+        opts: {} # options to be passed to the amqp object on creation
+      @obj.queue = 
+        name: "test-queue"
+        opts: {} # arr
+      cb?()
 
+    queueTest: (test) =>
 
-  queueSuite: {}
+    
+      do test.done
+
+    boundQueueTest: (test) =>
+
+      do test.done
+
+    queuesTest: (test) =>
+
+      do test.done
+
+    

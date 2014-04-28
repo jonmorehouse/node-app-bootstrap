@@ -90,34 +90,54 @@ exchange =
       @app.rabbit.exchanges.push e
       return do cb
 
-    # handle errors accordingly 
-    e.on "error", (err)=>
+    # handle signin error
+    e.once "error", (err)=>
       return cb err if err
 
   setUp: (cb) =>
-    if c.rabbit.exchange? 
-      # create one exchange etc
-      exchange.newExchange c.rabbit.exchange, cb
-    # handle multiple exchanges
-    else if c.rabbit.exchanges? 
-      objs = (obj for key, obj of c.rabbit.exchanges)
-      async.each objs, exchange.newExchange, (err) =>
+    # normalize the exchange object -> grab all excahnges
+    e = if c.rabbit.exchanges? then c.rabbit.exchanges else if c.rabbit.exchange? then [c.rabbit.exchange] else null
+    if not e?
+      return cb?()
+    
+    # now call the bootstrap method for each exchange
+    async.each e, exchange.newExchange, (err) =>
         return cb? err if err
         cb?()
-    else
-      cb?()
 
   tearDown: (cb) =>
+    # normalize the exchange object 
+    e = if c.rabbit.exchanges? then c.rabbit.exchanges else if c.rabbit.exchange? then [c.rabbit.exchange] else null
+    if not e?
+      return cb?()
 
-    # if more than one exchange - then call this function multiple times
+    # quick function for removing an individual queue
+    _ = (key) =>
+      # put in functionality for destroying if necessary / unbinding in the future
+      # propose removign this helper function if necessary
+      delete @app.rabbit[key]
+    _ obj.key for obj in e
+    cb?()
+    
+queue = 
+  newQueue: (obj) =>
+
+    # first create queue
+    # second check to see if we need to bind
     cb?()
 
-queue = 
   setUp: (cb) =>
+    # normalize queue/queues objects
+    q = if c.rabbit.queues? then c.rabbit.queues else if c.rabbit.queue? then [c.rabbit.queue] else null
+    if not q?
+      return cb?()
+    p "queus"
     # check 
     cb?()
 
   tearDown: (cb) =>
+    # grab the queue
+    # unbind if needed
     # if more than one exchange - then call this function multiple times
     cb?()
 

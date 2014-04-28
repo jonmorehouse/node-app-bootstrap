@@ -26,7 +26,8 @@ Example
 ###
 
 connection =
-  setUp: (cb) =>
+
+  newConnection: (cb) =>
     # create connection
     missing = shared.missingParameters ["host", "port"], c.rabbit
     if missing
@@ -37,11 +38,21 @@ connection =
       host: c.rabbit.host
       port: parseInt c.rabbit.port
     conn.on "ready", =>
-      @app.rabbit ?= {}
       @app.rabbit.conn = conn
       cb?()
     conn.on "error", (err) =>
       cb? err if err
+
+  setUp: (cb) =>
+
+    conn = (c.rabbit[key] for key in ["conn", "connection"] when c.rabbit[key]?)[0]
+  
+    if not conn?
+      return connection.newConnection cb
+    else
+      @app.rabbit ?= {}
+      @app.rabbit.conn = conn
+      cb?()
 
   tearDown: (cb) =>
     # check if connection exists

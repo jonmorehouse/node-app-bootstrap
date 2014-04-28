@@ -1,4 +1,5 @@
 bootstrap = require "../bootstrap"
+amqp = require 'amqp'
 c = require 'node-config'
 App = libRequire 'app'
 
@@ -13,25 +14,42 @@ bootstrap = (test, cb) =>
 
 module.exports = 
 
+  setUp: (cb) =>
+    @obj = 
+      host: "localhost"
+      port: 5672
+    cb?()
+
   tearDown: (cb) =>
     @app.close =>
       cb?()
 
   connSuite:
-
+    # pass in credentials for a connection
     objTest: (test) =>
-      @obj = 
-        host: "localhost"
-        port: 5672
+      p @obj
 
+      return do test.done
       bootstrap test, =>
-
+        # now make sure that the connection exists
+        test.notEqual false, @app.rabbit.conn?
         do test.done
 
-    connObjTest: (test) ->
-      do test.done
+    # pass in an already built out object
+    connObjTest: (test) =>
 
+      return do test.done
+      conn = amqp.createConnection {host: @obj.host, port: @obj.port}
+      conn.on "ready", =>
+        @obj.conn = conn
+
+        # bootstrap app with the connection now
+        bootstrap test, =>
+          do test.done
+
+    # pass in invalid credentials
     errTest: (test) ->
+
       do test.done
 
   exchangeSuite: {}

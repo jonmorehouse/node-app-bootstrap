@@ -21,15 +21,16 @@ module.exports =
     cb?()
 
   tearDown: (cb) =>
-    @app.close =>
+    if @app?
+      @app.close =>
+        cb?()
+    else
       cb?()
 
   connSuite:
     # pass in credentials for a connection
     objTest: (test) =>
-      p @obj
 
-      return do test.done
       bootstrap test, =>
         # now make sure that the connection exists
         test.notEqual false, @app.rabbit.conn?
@@ -38,22 +39,41 @@ module.exports =
     # pass in an already built out object
     connObjTest: (test) =>
 
-      return do test.done
       conn = amqp.createConnection {host: @obj.host, port: @obj.port}
       conn.on "ready", =>
         @obj.conn = conn
-
         # bootstrap app with the connection now
         bootstrap test, =>
           do test.done
 
-    # pass in invalid credentials
-    errTest: (test) ->
+  exchangeSuite: 
 
-      do test.done
+    exchangeTest: (test) =>
+      @obj.exchange =
+        name: "test"
+        key: "testExchange"
+        opts: {} # array of options to be passed in
 
-  exchangeSuite: {}
+      bootstrap test, =>
+        do test.done
+
+    #exchangesTest: (test) =>
+
+      #@obj.exchanges = [
+        #{ 
+          #name: "test"
+          #key: "testExchange"
+          #opts: {}
+        #},
+        #{
+          #name: "test1"
+          #key: "testExchange1"
+          #opts: {}
+        #}
+      #]
+
+      #bootstrap test, =>
+        #do test.done
+
+
   queueSuite: {}
-
-
-

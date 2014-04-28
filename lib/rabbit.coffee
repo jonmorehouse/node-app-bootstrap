@@ -38,15 +38,17 @@ connection =
       host: c.rabbit.host
       port: parseInt c.rabbit.port
     conn.on "ready", =>
+      @app.rabbit ?= {}
       @app.rabbit.conn = conn
       cb?()
     conn.on "error", (err) =>
-      cb? err if err
+      conn.disconnect()
+      return cb? err if err
 
   setUp: (cb) =>
 
     conn = (c.rabbit[key] for key in ["conn", "connection"] when c.rabbit[key]?)[0]
-  
+
     if not conn?
       return connection.newConnection cb
     else
@@ -58,16 +60,54 @@ connection =
     # check if connection exists
     if not @app.rabbit.conn?
       return cb?()
-
+    
     # now disconnect from amqp
     @app.rabbit.conn.disconnect()
     delete @app.rabbit.conn
     cb?()
 
 exchange = 
+  newExchange: (obj, cb) =>
+
+    # make sure the correct params are passed
+    missing = shared.missingParameters ["name"], obj
+    if missing
+      return cb new Error missing
+
+    # create options obj
+    opts =
+      confirm: true
+    # pass in any user options
+    if obj.opts?
+      extend true, opts, obj.opts
+
+    # now create exchange
+    #exchange = @app.rabbit.conn.exchange obj.name, opts
+    #p exchange
+    return do cb
+    #exchange.on "open", =>
+      ## link up the exchange
+      ## generate the key
+      ##@app.rabbit[if obj.key? then obj.key else obj.name] = exchange
+      #cb?()
+
+    #return do cb
+    ## handle errors accordingly 
+    #exchange.on "error", (err)=>
+      #return cb err if err
+
   setUp: (cb) =>
-    # check 
-    cb?()
+    if c.rabbit.exchange? 
+      # create one exchange etc
+      exchange.newExchange c.rabbit.exchange, cb
+    # handle multiple exchanges
+    else if c.rabbit.exchanges? 
+      objs = (obj for key, obj of c.rabbit.exchanges)
+      async.each objs, exchange.newExchange, (err) =>
+        return cb? err if err
+        cb?()
+    else
+      cb?()
 
   tearDown: (cb) =>
     # if more than one exchange - then call this function multiple times
@@ -94,6 +134,7 @@ exports.setUp = (@app, cb) =>
 exports.tearDown = (@app, cb) =>
   # call all tearDown methods
   async.waterfall [connection.tearDown, exchange.tearDown, queue.tearDown], (err) =>
-    cb err if err
+    cb? err if err?
     cb?()
+
 

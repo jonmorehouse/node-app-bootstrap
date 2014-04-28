@@ -36,7 +36,7 @@
 
 
   connection = {
-    setUp: function(cb) {
+    newConnection: function(cb) {
       var conn, missing;
       missing = shared.missingParameters(["host", "port"], c.rabbit);
       if (missing) {
@@ -47,10 +47,6 @@
         port: parseInt(c.rabbit.port)
       });
       conn.on("ready", function() {
-        var _base;
-        if ((_base = _this.app).rabbit == null) {
-          _base.rabbit = {};
-        }
         _this.app.rabbit.conn = conn;
         return typeof cb === "function" ? cb() : void 0;
       });
@@ -59,6 +55,30 @@
           return typeof cb === "function" ? cb(err) : void 0;
         }
       });
+    },
+    setUp: function(cb) {
+      var conn, key, _base;
+      conn = ((function() {
+        var _i, _len, _ref, _results;
+        _ref = ["conn", "connection"];
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          key = _ref[_i];
+          if (c.rabbit[key] != null) {
+            _results.push(c.rabbit[key]);
+          }
+        }
+        return _results;
+      })())[0];
+      if (conn == null) {
+        return connection.newConnection(cb);
+      } else {
+        if ((_base = _this.app).rabbit == null) {
+          _base.rabbit = {};
+        }
+        _this.app.rabbit.conn = conn;
+        return typeof cb === "function" ? cb() : void 0;
+      }
     },
     tearDown: function(cb) {
       if (_this.app.rabbit.conn == null) {

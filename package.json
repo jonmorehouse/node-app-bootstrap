@@ -20,7 +20,8 @@
     "amqp": "^0.2.0",
     "async": "^0.7.0",
     "node-config": "git://github.com/jonmorehouse/node-config",
-    "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger"
+    "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger",
+    "pg": "^3.0.3"
   },
   "devDependencies": {
     "extend": "^1.2.1",

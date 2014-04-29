@@ -47,14 +47,25 @@ module.exports =
           #do test.done
 
   exchangeSuite: 
-    exchangeTest: (test) =>
+    setUp: (cb) =>
       @obj.exchange =
         name: "test"
         key: "testExchange"
-        opts: {} # options object to be passed directly to amqp 
+        opts: {confirm: true} # options object to be passed directly to amqp 
+      cb?()
+
+    exchangeTest: (test) =>
+      bootstrap test, =>
+        test.equal true, @app.rabbit[@obj.exchange.key]?
+        do test.done
+
+    exchangePublishTest: (test) =>
 
       bootstrap test, =>
-        do test.done
+        e = @app.rabbit[@obj.exchange.key] 
+        e.publish "*", "msg", {}, (err) =>
+          test.equal false, err
+          do test.done
 
     exchangesTest: (test) =>
       @obj.exchanges = [
@@ -91,10 +102,28 @@ module.exports =
       cb?()
 
     queueTest: (test) =>
-      bootstrap test, =>
-        test.equal true, @app.rabbit[@obj.queue.key]?
 
-        do test.done
+      return do test.done
+      bootstrap test, =>
+        q = @app.rabbit[@obj.queue.key]
+        e = @app.rabbit[@obj.exchange.key]
+        ct = null
+        test.equal true, q?
+        test.equal true, q.subscribe?
+        s = q.subscribe {ack:true}, (msg)=>
+          # this should be called
+          s.unsubscribe consumerTag
+          do test.done
+            
+        p e
+        e.publish "TEST"
+        s.addCallback (ok) =>
+          ct = ok.consumerTag
+          q.on "basicQosOk", =>
+            p "HERE"
+          s.on "basicQosOk", =>
+            p "HEASD"
+            e.publish "msg"
 
     boundQueueTest: (test) =>
 

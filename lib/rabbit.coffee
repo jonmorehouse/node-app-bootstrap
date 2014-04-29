@@ -79,7 +79,7 @@ exchange =
     if obj.opts?
       extend true, opts, obj.opts
 
-    # now create exchange
+    # create exchange
     e = @app.rabbit.conn.exchange obj.name, opts
     e.on "open", =>
       @app.rabbit[obj.key] = e
@@ -94,7 +94,6 @@ exchange =
     e = if c.rabbit.exchanges? then c.rabbit.exchanges else if c.rabbit.exchange? then [c.rabbit.exchange] else null
     if not e?
       return cb?()
-    
     # now call the bootstrap method for each exchange
     async.each e, exchange.newExchange, (err) =>
         return cb? err if err
@@ -129,8 +128,8 @@ queue =
       if not obj.exchange?
         return cb?()
       # bind to the correct exchange
-      rk = if obj.routing? then obj.routing else "*"
-      q.bind obj.exchange, rk, (q)=>
+      obj.routing ?= "*"
+      q.bind obj.exchange, obj.routing, (q)=>
         cb?()
 
   setUp: (cb) =>
@@ -144,11 +143,22 @@ queue =
       cb?()
 
   tearDown: (cb) =>
-    # grab the queue
-    # unbind if needed
-    # if more than one exchange - then call this function multiple times
-    cb?()
+    # normalize queue/queues objects
+    q = if c.rabbit.queues? then c.rabbit.queues else if c.rabbit.queue? then [c.rabbit.queue] else null
+    if not q?
+      return cb?()
+    # tear down indiviual queue
+    _ = (obj, cb) => 
+      _q = @app.rabbit[obj.key]
+      if obj.exchange?
+        _q.unbind obj.exchange, obj.routing
+      cb?()
+    # teardown each queue
+    async.each q, _, (err) =>
+      return cb? err if err
+      cb?()
 
+# public methods
 exports.setUp = (@app, cb) =>
   if not c.rabbit?
     return cb? null, @app
@@ -162,5 +172,4 @@ exports.tearDown = (@app, cb) =>
   async.waterfall [queue.tearDown, exchange.tearDown, connection.tearDown], (err) =>
     return cb? err if err?
     cb?()
-
 

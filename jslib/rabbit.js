@@ -158,13 +158,14 @@
       }
       opts = obj.opts != null ? obj.opts : {};
       return _this.app.rabbit.conn.queue(obj.name, opts, function(q) {
-        var rk;
         _this.app.rabbit[obj.key] = q;
         if (obj.exchange == null) {
           return typeof cb === "function" ? cb() : void 0;
         }
-        rk = obj.routing != null ? obj.routing : "*";
-        return q.bind(obj.exchange, rk, function(q) {
+        if (obj.routing == null) {
+          obj.routing = "*";
+        }
+        return q.bind(obj.exchange, obj.routing, function(q) {
           return typeof cb === "function" ? cb() : void 0;
         });
       });
@@ -183,7 +184,25 @@
       });
     },
     tearDown: function(cb) {
-      return typeof cb === "function" ? cb() : void 0;
+      var q, _;
+      q = c.rabbit.queues != null ? c.rabbit.queues : c.rabbit.queue != null ? [c.rabbit.queue] : null;
+      if (q == null) {
+        return typeof cb === "function" ? cb() : void 0;
+      }
+      _ = function(obj, cb) {
+        var _q;
+        _q = _this.app.rabbit[obj.key];
+        if (obj.exchange != null) {
+          _q.unbind(obj.exchange, obj.routing);
+        }
+        return typeof cb === "function" ? cb() : void 0;
+      };
+      return async.each(q, _, function(err) {
+        if (err) {
+          return typeof cb === "function" ? cb(err) : void 0;
+        }
+        return typeof cb === "function" ? cb() : void 0;
+      });
     }
   };
 

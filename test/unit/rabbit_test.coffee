@@ -90,13 +90,13 @@ module.exports =
     setUp: (cb) =>
       # initailize objecst for testing this out
       @obj.exchange =
-        name: "test-exchange-2"
+        name: "test-exchange"
         key: "testExchange"
       @obj.queue = 
-        name: "test-queue-2"
+        name: "test-queue"
         key: "testQueue"
         exchange: @obj.exchange.name
-        opts: {} # arr
+        opts: {} 
       cb?()
 
     queueTest: (test) =>
@@ -117,6 +117,17 @@ module.exports =
 
     queuesTest: (test) =>
 
-      do test.done
+      @obj.exchanges = [@obj.exchange,
+        {
+          name: "test-queue-2"
+          key: "testQueue2"
+          exchange: @obj.exchange.name
+        }
+      ]
+      
+      bootstrap test, =>
+        for e in @obj.exchanges
+          test.equal true, @app.rabbit[e.key]?
+        do test.done
 
-    
+

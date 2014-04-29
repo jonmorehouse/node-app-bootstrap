@@ -41,7 +41,7 @@ connection =
       @app.rabbit ?= {}
       @app.rabbit.conn = conn
       cb?()
-    conn.on "error", (err) =>
+    conn.once "error", (err) =>
       conn.disconnect()
       return cb? err if err
 

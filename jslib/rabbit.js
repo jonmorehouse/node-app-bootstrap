@@ -54,7 +54,7 @@
         _this.app.rabbit.conn = conn;
         return typeof cb === "function" ? cb() : void 0;
       });
-      return conn.on("error", function(err) {
+      return conn.once("error", function(err) {
         conn.disconnect();
         if (err) {
           return typeof cb === "function" ? cb(err) : void 0;

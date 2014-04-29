@@ -60,7 +60,6 @@ module.exports =
         do test.done
 
     exchangePublishTest: (test) =>
-
       bootstrap test, =>
         e = @app.rabbit[@obj.exchange.key] 
         e.publish "*", "msg", {}, (err) =>
@@ -86,52 +85,35 @@ module.exports =
           test.notEqual false, 
         do test.done
 
-
   queueSuite: 
     
     setUp: (cb) =>
       # initailize objecst for testing this out
       @obj.exchange =
-        name: "test"
+        name: "test-exchange-2"
         key: "testExchange"
-        opts: {} # options to be passed to the amqp object on creation
       @obj.queue = 
-        name: "test-queue"
+        name: "test-queue-2"
         key: "testQueue"
+        exchange: @obj.exchange.name
         opts: {} # arr
       cb?()
 
     queueTest: (test) =>
-
-      return do test.done
       bootstrap test, =>
         q = @app.rabbit[@obj.queue.key]
         e = @app.rabbit[@obj.exchange.key]
         ct = null
+        msg = {key: "value"}
         test.equal true, q?
         test.equal true, q.subscribe?
-        s = q.subscribe {ack:true}, (msg)=>
-          # this should be called
-          s.unsubscribe consumerTag
+        s = q.subscribe {ack:true}, (_msg) =>
+          test.deepEqual _msg, msg
           do test.done
-            
-        p e
-        e.publish "TEST"
+        # subscribe, wait for the queue to be ready, and then publish!
         s.addCallback (ok) =>
           ct = ok.consumerTag
-          q.on "basicQosOk", =>
-            p "HERE"
-          s.on "basicQosOk", =>
-            p "HEASD"
-            e.publish "msg"
-
-    boundQueueTest: (test) =>
-
-      # link up the exchange name accordingly here
-      @obj.queue.exchange = @obj.exchange.name
-      bootstrap test, =>
-
-        do test.done
+          e.publish "*", msg
 
     queuesTest: (test) =>
 

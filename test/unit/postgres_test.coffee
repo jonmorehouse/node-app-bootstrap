@@ -27,9 +27,9 @@ module.exports =
     connSuite: (test) =>
       bootstrap test, =>
         test.equals true, @app.postgres?
-
+        
         @app.close =>
           do test.done
-
+      
 
 

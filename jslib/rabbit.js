@@ -221,6 +221,9 @@
 
   exports.tearDown = function(app, cb) {
     _this.app = app;
+    if (c.rabbit == null) {
+      return typeof cb === "function" ? cb(null, _this.app) : void 0;
+    }
     return async.waterfall([queue.tearDown, exchange.tearDown, connection.tearDown], function(err) {
       if (err != null) {
         return typeof cb === "function" ? cb(err) : void 0;

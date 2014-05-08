@@ -168,6 +168,8 @@ exports.setUp = (@app, cb) =>
     cb?()
 
 exports.tearDown = (@app, cb) =>
+  if not c.rabbit?
+    return cb? null, @app
   # call all tearDown methods
   async.waterfall [queue.tearDown, exchange.tearDown, connection.tearDown], (err) =>
     return cb? err if err?

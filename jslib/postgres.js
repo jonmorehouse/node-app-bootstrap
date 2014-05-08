@@ -18,15 +18,15 @@
       if (err) {
         return cb(err);
       }
-      _this.app.postgres = client;
+      app.postgres = client;
       return typeof cb === "function" ? cb() : void 0;
     });
   };
 
   exports.tearDown = function(app, cb) {
-    if (_this.app.postgres) {
-      _this.app.postgres.end();
-      delete _this.app.postgres;
+    if (app.postgres) {
+      app.postgres.end();
+      delete app.postgres;
     }
     return typeof cb === "function" ? cb() : void 0;
   };

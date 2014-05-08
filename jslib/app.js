@@ -12,7 +12,8 @@
     __extends(App, _super);
 
     App.components = {
-      rabbit: require("./rabbit")
+      rabbit: require("./rabbit"),
+      postgresql: require("./postgres")
     };
 
     function App(cb) {

@@ -6,8 +6,8 @@ class App extends events.EventEmitter
   @components = 
     rabbit: require "./rabbit"
     postgresql: require "./postgres"
+    loggly: require "./loggly"
     #redis: require "./redis"
-    #paperTrail: require "./paper_trail"
     #airBrake: require "./air_brake"
 
   constructor: (cb) ->

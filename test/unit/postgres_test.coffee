@@ -1,14 +1,10 @@
 bootstrap = require "../bootstrap"
 c = require 'node-config'
-App = libRequire 'app'
-
-bootstrap = (test, cb) =>
-  c.set "postgres", @obj
-  new App (err, app) => 
-    @app = app
-    cb?()
 
 module.exports = 
+
+  setUp: (cb) =>
+    cb?()
 
   connSuite:
     setUp: (cb) =>
@@ -21,15 +17,24 @@ module.exports =
 
   connStringSuite: 
     setUp: (cb) =>
-      @obj = "postgres://test:test@localhost/test"
+      @obj = 
+        postgres: "postgres://test:test@localhost/test"
       cb?()
 
-    connSuite: (test) =>
-      bootstrap test, =>
+    testConn: (test) =>
+      appBootstrap @obj, (@app) =>
         test.equals true, @app.postgres?
-        
         @app.close =>
           do test.done
       
+  connObjSuite:
+    setUp: (cb) =>
+
+      cb?()
+
+    testConn: (test) =>
+
+      do test.done
+
 
 

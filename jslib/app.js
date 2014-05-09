@@ -13,7 +13,8 @@
 
     App.components = {
       rabbit: require("./rabbit"),
-      postgresql: require("./postgres")
+      postgresql: require("./postgres"),
+      loggly: require("./loggly")
     };
 
     function App(cb) {

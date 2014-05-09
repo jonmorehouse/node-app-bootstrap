@@ -1,7 +1,7 @@
 bootstrap = require "../bootstrap"
 config = require 'node-config'
 extend = require 'extend'
-App = libRequire 'app'
+App = libRequire "app"
 
 module.exports = 
 

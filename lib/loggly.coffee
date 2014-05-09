@@ -2,12 +2,6 @@ loggly = require 'loggly'
 c = require 'node-config'
 shared = require "./shared"
 
-logger = (message, args...) =>
-
-  p length
-
-
-
 exports.setUp = (app, cb) =>
 
   if not c.loggly?
@@ -28,15 +22,18 @@ exports.setUp = (app, cb) =>
     tags: if cObj.tags? then cObj.tags else []
     json: if cObj.json? then cObj.json else true
   
-  # now create the client
+  # create loggly client
   client = loggly.createClient lObj  
-  # handle an error
-  if not client?
 
-
-
+  # map it to the app bootstrap
+  app.loggly = client
+  app.log = (msg, args...) ->
+    @loggly.log msg, args...
+  cb?()
 
 exports.tearDown = (app, cb) =>
 
+  delete app.loggly
+  delete app.log
   cb?()
 

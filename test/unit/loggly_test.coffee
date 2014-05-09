@@ -22,11 +22,15 @@ module.exports =
       password: c.logglyPassword
       tags: ["app-bootstrap-test"]
 
-    appBootstrap {loggly: @obj}, (@app) =>
+    appBootstrap {loggly: @obj}, (app) =>
 
-      p @app
-      do test.done
+      # make sure loggers were set correctly
+      test.equals app.loggly?, true
+      test.equals app.log?, true
 
-
-
+      # actually try to log and make sure it works
+      app.log "msg", (err, msg) =>
+        test.notEqual err?, true
+        test.deepEqual msg, {response: "ok"}
+        do test.done
 

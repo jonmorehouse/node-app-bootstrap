@@ -5,8 +5,8 @@ class App extends events.EventEmitter
 
   @components =
     #etcd: #
-    rabbit: require "./rabbit"
-    postgresql: require "./postgres"
+    #rabbit: require "./rabbit"
+    #postgresql: require "./postgres"
     loggly: require "./loggly"
     #redis: require "./redis"
     #airBrake: require "./air_brake"
@@ -26,7 +26,7 @@ class App extends events.EventEmitter
     else 
       @_caller "tearDown", cb
 
-  _caller: (method, cb) ->
+  _caller: (method, cb) =>
 
     # grab all the relevant functions
     functions = (component[method] for key, component of App.components)

@@ -22,7 +22,7 @@ Goals
 Example 
 -------
 
-```
+``` coffee-script
 config = require 'node-config'
 bootstrap = require 'worker-bootstrap'
 rabbitWorker = require 'rabbitWorker'

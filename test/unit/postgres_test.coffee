@@ -3,9 +3,6 @@ c = require 'node-config'
 
 module.exports = 
 
-  setUp: (cb) =>
-    cb?()
-
   connSuite:
     setUp: (cb) =>
       @obj = {}
@@ -29,6 +26,8 @@ module.exports =
       
   connObjSuite:
     setUp: (cb) =>
+    
+      #@obj = 
 
       cb?()
 

@@ -3,7 +3,8 @@ events = require 'events'
 
 class App extends events.EventEmitter
 
-  @components = 
+  @components =
+    #etcd: #
     rabbit: require "./rabbit"
     postgresql: require "./postgres"
     loggly: require "./loggly"
@@ -12,7 +13,10 @@ class App extends events.EventEmitter
 
   constructor: (cb) ->
     super
-    @_caller "setUp", cb
+    @_caller "setUp", (err, app) =>
+    
+      # call etcd - register function here ...
+      cb err, app
 
   close: (cb) ->
     # if there are listeners

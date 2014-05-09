@@ -9,7 +9,8 @@ module.exports =
 
   tearDown: (cb) =>
 
-    cb?()
+    @app.close =>
+      cb?()
 
   logglyTest: (test) =>
 
@@ -21,14 +22,14 @@ module.exports =
       password: c.logglyPassword
       tags: ["app-bootstrap-test"]
 
-    appBootstrap {loggly: @obj}, (app) =>
+    appBootstrap {loggly: @obj}, (@app) =>
 
       # make sure loggers were set correctly
-      test.equals app.loggly?, true
-      test.equals app.log?, true
+      test.equals @app.loggly?, true
+      test.equals @app.log?, true
 
       # actually try to log and make sure it works
-      app.log "msg", (err, msg) =>
+      @app.log "msg", (err, msg) =>
         test.notEqual err?, true
         test.deepEqual msg, {response: "ok"}
         do test.done

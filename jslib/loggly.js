@@ -41,8 +41,12 @@
   };
 
   exports.tearDown = function(app, cb) {
-    delete app.loggly;
-    delete app.log;
+    if (app.loggly != null) {
+      delete app.loggly;
+    }
+    if (app.log != null) {
+      delete app.log;
+    }
     return typeof cb === "function" ? cb() : void 0;
   };
 

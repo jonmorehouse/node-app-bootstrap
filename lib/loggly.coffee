@@ -33,7 +33,9 @@ exports.setUp = (app, cb) =>
 
 exports.tearDown = (app, cb) =>
 
-  delete app.loggly
-  delete app.log
+  if app.loggly? 
+    delete app.loggly
+  if app.log?
+    delete app.log
   cb?()
 

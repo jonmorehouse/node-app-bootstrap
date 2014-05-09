@@ -5,8 +5,8 @@ class App extends events.EventEmitter
 
   @components =
     #etcd: #
-    #rabbit: require "./rabbit"
-    #postgresql: require "./postgres"
+    rabbit: require "./rabbit"
+    postgresql: require "./postgres"
     loggly: require "./loggly"
     #redis: require "./redis"
     #airBrake: require "./air_brake"

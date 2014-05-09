@@ -13,6 +13,8 @@
     __extends(App, _super);
 
     App.components = {
+      rabbit: require("./rabbit"),
+      postgresql: require("./postgres"),
       loggly: require("./loggly")
     };
 

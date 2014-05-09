@@ -11,7 +11,7 @@ runner = (commandString)->
 task "test", "Run all tests", ->
 
   reporter = nodeunit.reporters.verbose
-  reporter.run ["test/unit/loggly_test.coffee"]
+  reporter.run ["test/unit/"]
 
 task "lint", "Lint project", ->
 

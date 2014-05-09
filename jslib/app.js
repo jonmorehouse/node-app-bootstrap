@@ -15,7 +15,8 @@
     App.components = {
       rabbit: require("./rabbit"),
       postgresql: require("./postgres"),
-      loggly: require("./loggly")
+      loggly: require("./loggly"),
+      redis: require("./redis")
     };
 
     function App(cb) {

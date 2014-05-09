@@ -8,8 +8,8 @@ class App extends events.EventEmitter
     rabbit: require "./rabbit"
     postgresql: require "./postgres"
     loggly: require "./loggly"
-    #redis: require "./redis"
-    #airBrake: require "./air_brake"
+    redis: require "./redis"
+    #airBrake: require "./airbrake"
 
   constructor: (cb) ->
     super

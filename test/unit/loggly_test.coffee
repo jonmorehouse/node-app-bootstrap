@@ -1,6 +1,5 @@
 bootstrap = require "../bootstrap"
 c = require 'node-config'
-App = libRequire "app"
 
 module.exports = 
 

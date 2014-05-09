@@ -3,6 +3,7 @@ keys = [
   # host to load things from - config will load this ...
   # config should prefer all keys from etcd over this
   "ETCD_HOST",
+  "ETCD_NAMESPACE",
 
   # update postgres
   "POSTGRES_HOST",
@@ -23,8 +24,16 @@ keys = [
   "RABBIT_PORT",
 ]
 
+###
+1.) Bootstrap config
+2.) ADD Any user configuration into the config
+3.) Startup services [postgres, rabbit, redis, daemon-trigger, loggly, etcd]
+4.) Check in with etcd 
+5.) Pass to callback
 
+first look into node-config / etcd and then get this working
+would like the ability to add an etcd namespace ...
+  would then read from the global namespace if not overridden
 
-
-
+###
 

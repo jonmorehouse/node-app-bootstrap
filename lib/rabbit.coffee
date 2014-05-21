@@ -1,4 +1,4 @@
-c = require 'node-config'
+c = require 'multi-config'
 amqp = require 'amqp'
 extend = require 'extend'
 async = require 'async'

@@ -3,7 +3,7 @@
   var amqp, async, c, connection, exchange, extend, queue, shared,
     _this = this;
 
-  c = require('node-config');
+  c = require('multi-config');
 
   amqp = require('amqp');
 

@@ -1,4 +1,4 @@
-c = require 'node-config'
+c = require 'multi-config'
 redis = require 'redis'
 shared = require "./shared"
 

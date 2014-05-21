@@ -1,11 +1,11 @@
 bootstrap = require "../bootstrap"
-c = require 'node-config'
+c = require 'multi-config'
 
 module.exports = 
 
   setUp: (cb) =>  
   
-    c.loadFromEnv ["REDIS_HOST", "REDIS_PORT"]
+    c.env ["REDIS_HOST", "REDIS_PORT"]
     @obj = 
       host: c.redisHost
       port: c.redisPort

@@ -1,4 +1,4 @@
-c = require 'node-config'
+c = require 'multi-config'
 pg = require 'pg'
 
 exports.setUp = (app, cb) ->

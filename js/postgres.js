@@ -3,7 +3,7 @@
   var c, pg,
     _this = this;
 
-  c = require('node-config');
+  c = require('multi-config');
 
   pg = require('pg');
 

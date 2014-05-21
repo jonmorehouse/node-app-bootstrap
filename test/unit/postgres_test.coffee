@@ -1,5 +1,5 @@
 bootstrap = require "../bootstrap"
-c = require 'node-config'
+c = require 'multi-config'
 
 module.exports = 
 

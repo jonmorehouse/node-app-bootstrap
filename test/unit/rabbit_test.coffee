@@ -1,6 +1,6 @@
 bootstrap = require "../bootstrap"
 amqp = require 'amqp'
-c = require 'node-config'
+c = require 'multi-config'
 App = libRequire 'app'
 
 bootstrap = (test, cb) =>

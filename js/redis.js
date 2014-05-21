@@ -2,7 +2,7 @@
 (function() {
   var c, redis, shared;
 
-  c = require('node-config');
+  c = require('multi-config');
 
   redis = require('redis');
 

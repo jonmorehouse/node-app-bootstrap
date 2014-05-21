@@ -6,7 +6,7 @@
 
   loggly = require('loggly');
 
-  c = require('node-config');
+  c = require('multi-config');
 
   shared = require("./shared");
 

@@ -1,5 +1,5 @@
 bootstrap = require "../bootstrap"
-config = require 'node-config'
+config = require 'multi-config'
 extend = require 'extend'
 App = libRequire "app"
 

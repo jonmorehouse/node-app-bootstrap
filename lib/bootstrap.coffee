@@ -32,7 +32,7 @@ keys = [
 4.) Check in with etcd 
 5.) Pass to callback
 
-first look into node-config / etcd and then get this working
+first look into multi-config / etcd and then get this working
 would like the ability to add an etcd namespace ...
   would then read from the global namespace if not overridden
 

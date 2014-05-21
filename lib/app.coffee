@@ -4,11 +4,11 @@ events = require 'events'
 class App extends events.EventEmitter
 
   @components =
-    #etcd: require "./etcd"
     rabbit: require "./rabbit"
     postgresql: require "./postgres"
     loggly: require "./loggly"
     redis: require "./redis"
+    daemon: require "./daemon"
 
   constructor: (cb) ->
     super

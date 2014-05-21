@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jonmorehouse/node-app-bootstrap.git"
+    "url": "git://github.com/jonmorehouse/node-appstrap.git"
   },
   "author": "Jon Morehouse <morehousej09@gmail.com> (http://github.com/jonmorehouse)",
   "homepage": "https://github.com/jonmorehouse/node-multi-config",

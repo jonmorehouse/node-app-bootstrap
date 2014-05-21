@@ -1,26 +1,28 @@
 {
-  "name": "node-app-bootstrap",
+  "name": "appstrap",
   "version": "0.0.0",
-  "description": "App bootstrap/run module",
-  "main": "jslib/index.js",
+  "description": "A module for bootstrapping servers, distributed workers and other such projects",
+  "main": "js/index.js",
   "scripts": {
+    "prepublish": "cake build",
     "test": "cake test"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/jonmorehouse/node-app-bootstrap.git"
   },
-  "author": "Jon Morehouse",
+  "author": "Jon Morehouse <morehousej09@gmail.com> (http://github.com/jonmorehouse)",
+  "homepage": "https://github.com/jonmorehouse/node-multi-config",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jonmorehouse/node-app-bootstrap/issues"
+    "url": "https://github.com/jonmorehouse/node-appstrap/issues"
   },
-  "homepage": "https://github.com/jonmorehouse/node-app-bootstrap",
+  "homepage": "https://github.com/jonmorehouse/node-appstrap",
   "dependencies": {
     "amqp": "^0.2.0",
     "async": "^0.7.0",
     "loggly": "^1.0.4",
-    "node-config": "git://github.com/jonmorehouse/node-config",
+    "multi-config": "git://github.com/jonmorehouse/node-multi-config",
     "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger",
     "pg": "^3.0.3",
     "redis": "^0.10.1"

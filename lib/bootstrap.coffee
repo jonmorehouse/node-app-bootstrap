@@ -2,8 +2,9 @@ keys = [
 
   # host to load things from - config will load this ...
   # config should prefer all keys from etcd over this
-  "ETCD_HOST",
-  "ETCD_NAMESPACE",
+  "ETCD_HOST", # this should be read in the config module automatically
+
+  "ETCD_PORT", # this should be read in the config module automatically
 
   # update postgres
   "POSTGRES_HOST",

@@ -4,7 +4,7 @@ c = require 'node-config'
 module.exports = 
 
   setUp: (cb) =>
-    c.loadFromEnv ["LOGGLY_CUSTOMER_TOKEN", "LOGGLY_SUBDOMAIN", "LOGGLY_USERNAME", "LOGGLY_PASSWORD"]
+    c.env ["LOGGLY_CUSTOMER_TOKEN", "LOGGLY_SUBDOMAIN", "LOGGLY_USERNAME", "LOGGLY_PASSWORD"]
     cb?()
 
   tearDown: (cb) =>

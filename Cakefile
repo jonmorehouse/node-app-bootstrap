@@ -18,7 +18,7 @@ task "lint", "Lint project", ->
   command = "find . -type f -path ./node_modules -prune -o -name \"*.coffee\" | xargs -I '{}' coffeescript_linter {}"
   runner command
 
-task "build", "Build jslib", ->
+task "build", "Build js library", ->
 
-  runner "coffee -c -o jslib lib"
+  runner "coffee -c -o js lib"
 

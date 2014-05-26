@@ -32,18 +32,21 @@ connection =
     missing = shared.missingParameters ["host", "port"], c.rabbit
     if missing
       return cb new Error missing
-
-    # now create a connection
-    conn = amqp.createConnection 
+  
+    clientOpts = 
       host: c.rabbit.host
       port: parseInt c.rabbit.port
+
+    rabbitOpts = 
+      reconnect: false
+
+    # now create a connection
+    conn = amqp.createConnection clientOpts, rabbitOpts
+
     conn.on "ready", =>
       @app.rabbit ?= {}
       @app.rabbit.conn = conn
       cb?()
-    conn.once "error", (err) =>
-      conn.disconnect()
-      return cb? err if err
 
   setUp: (cb) =>
     conn = (c.rabbit[key] for key in ["conn", "connection"] when c.rabbit[key]?)[0]

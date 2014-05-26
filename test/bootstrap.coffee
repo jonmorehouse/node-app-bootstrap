@@ -3,7 +3,7 @@ amqp = require 'amqp'
 async = require 'async'
 fs = require 'fs'
 stream = require 'stream'
-c = require 'node-config'
+c = require 'multi-config'
 
 # print out all call stack errors - this helps a ton!
 process.on 'uncaughtException', (err) ->

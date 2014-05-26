@@ -12,12 +12,11 @@
     "url": "git://github.com/jonmorehouse/node-appstrap.git"
   },
   "author": "Jon Morehouse <morehousej09@gmail.com> (http://github.com/jonmorehouse)",
-  "homepage": "https://github.com/jonmorehouse/node-multi-config",
+  "homepage": "https://github.com/jonmorehouse/node-appstrap",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jonmorehouse/node-appstrap/issues"
   },
-  "homepage": "https://github.com/jonmorehouse/node-appstrap",
   "dependencies": {
     "amqp": "^0.2.0",
     "async": "^0.7.0",
@@ -25,7 +24,8 @@
     "multi-config": "git://github.com/jonmorehouse/node-multi-config",
     "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-trigger",
     "pg": "^3.0.3",
-    "redis": "^0.10.1"
+    "redis": "^0.10.1",
+    "zerorpc": "~0.9.3"
   },
   "devDependencies": {
     "extend": "^1.2.1",

@@ -24,16 +24,3 @@ module.exports =
         @app.close =>
           do test.done
       
-  connObjSuite:
-    setUp: (cb) =>
-    
-      #@obj = 
-
-      cb?()
-
-    testConn: (test) =>
-
-      do test.done
-
-
-

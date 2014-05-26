@@ -13,7 +13,7 @@ runner = (commandString)->
 task "test", "Run current tests", ->
 
   reporter = nodeunit.reporters.verbose
-  reporter.run ['test/unit']
+  reporter.run ['test/unit/zerorpc_test.coffee']
 
 task "test-all", "Run all tests", ->
 

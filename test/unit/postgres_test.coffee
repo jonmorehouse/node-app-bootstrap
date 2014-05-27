@@ -9,7 +9,6 @@ module.exports =
       cb?()
 
     connTest: (test) =>
-
       do test.done
 
   connStringSuite: 
@@ -24,3 +23,4 @@ module.exports =
         @app.close =>
           do test.done
       
+

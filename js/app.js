@@ -16,7 +16,8 @@
       rabbit: require("./rabbit"),
       postgresql: require("./postgres"),
       loggly: require("./loggly"),
-      redis: require("./redis")
+      redis: require("./redis"),
+      zerorpc: require("./zerorpc")
     };
 
     function App(cb) {

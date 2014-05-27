@@ -14,12 +14,9 @@ exports.setUp = (app, cb) ->
 
 exports.tearDown = (app, cb) =>
   
-  if not app.postgres?
-    return cb?()
-
-  if app.postgres
-    do app.postgres.end
-    delete app.postgres
+  return cb?() if not app.postgres?
+  do app.postgres.end
+  delete app.postgres
   cb?()
 
 

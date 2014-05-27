@@ -28,10 +28,8 @@
       if (app.postgres == null) {
         return typeof cb === "function" ? cb() : void 0;
       }
-      if (app.postgres) {
-        app.postgres.end();
-        delete app.postgres;
-      }
+      app.postgres.end();
+      delete app.postgres;
       return typeof cb === "function" ? cb() : void 0;
     };
   })(this);

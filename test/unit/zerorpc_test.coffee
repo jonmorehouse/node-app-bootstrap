@@ -9,8 +9,7 @@ module.exports =
     # create mock server object
     @server = new zpc.Server 
       test: (args, reply) ->
-
-        p "HERE"
+        reply null, "here"
 
     # bind server
     @server.bind "tcp://0.0.0.0:4242"
@@ -30,39 +29,26 @@ module.exports =
   testZerorpc: (test) =>
 
     appBootstrap @obj, (@app) =>
-      cb?()
 
-    do test.done
+      @app.zerorpc.invoke "test", "args", (err, res, more) ->
+        test.equal err?, false
+        test.equal true, res?
+        test.equal false, more
+        do test.done
 
-  paramSuite: 
+  #paramSuite: 
   
-    setUp: (cb) ->
+    #setUp: (cb) ->
 
-      cb?()
+      #cb?()
 
-    tearDown: (cb) ->
+    #tearDown: (cb) ->
 
-      cb?()
+      #cb?()
 
-    testString: (test) ->
+    #testString: (test) ->
 
-      appBootstrap @obj, (@app) =>
-        cb?()
+      #appBootstrap @obj, (@app) =>
 
-      do test.done
-
-    testObject: (test) ->
-
-      appBootstrap @obj, (@app) =>
-        cb?()
-      do test.done
-
-
-
-
-    
-
-
-
-
+        #do test.done
 

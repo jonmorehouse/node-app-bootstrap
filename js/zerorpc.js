@@ -28,7 +28,7 @@
       return typeof cb === "function" ? cb() : void 0;
     }
     app.zerorpc.close();
-    delete app.zerorpc;
+    delete app["zerorpc"];
     return typeof cb === "function" ? cb() : void 0;
   };
 

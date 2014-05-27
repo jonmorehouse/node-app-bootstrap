@@ -14,13 +14,12 @@ exports.setUp = (app, cb) ->
 
   app.zerorpc = new zerorpc.Client()
   app.zerorpc.connect host
-
   cb?()
 
 exports.tearDown = (app, cb) ->
 
   return cb?() if not app.zerorpc?
   do app.zerorpc.close
-  delete app.zerorpc
+  delete app["zerorpc"]
   cb?()
 

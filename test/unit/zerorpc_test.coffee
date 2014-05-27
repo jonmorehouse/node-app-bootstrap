@@ -2,9 +2,22 @@ bootstrap = require "../bootstrap"
 c = require "multi-config"
 zpc = require "zerorpc"
 
+clientTest = (app, test) ->
+
+  test.equal true, app.zerorpc?
+  app.zerorpc.invoke "test", "args", (err, res, more) ->
+    test.equal err?, false
+    test.equal true, res?
+    test.equal false, more
+    do test.done
+
 module.exports = 
 
   setUp: (cb) =>
+    
+    # once server is bound and listening, bootup app
+    @obj = 
+      zerorpc: "tcp://127.0.0.1:4242"
 
     # create mock server object
     @server = new zpc.Server 
@@ -13,10 +26,6 @@ module.exports =
 
     # bind server
     @server.bind "tcp://0.0.0.0:4242"
-
-    # once server is bound and listening, bootup app
-    @obj = 
-      zerorpc: "tcp://127.0.0.1:4242"
     cb?()
 
   tearDown: (cb) =>
@@ -29,26 +38,19 @@ module.exports =
   testZerorpc: (test) =>
 
     appBootstrap @obj, (@app) =>
+      clientTest @app, test
 
-      @app.zerorpc.invoke "test", "args", (err, res, more) ->
-        test.equal err?, false
-        test.equal true, res?
-        test.equal false, more
-        do test.done
-
-  #paramSuite: 
+  paramSuite: 
   
-    #setUp: (cb) ->
+    testString: (test) =>
 
-      #cb?()
+      appBootstrap @obj, (@app) =>
+        clientTest @app, test
 
-    #tearDown: (cb) ->
+    testObject: (test) =>
+    
+      appBootstrap {zerorpc: {host: "tcp://127.0.0.1:4242"}}, (@app) =>
+        clientTest @app, test
 
-      #cb?()
 
-    #testString: (test) ->
-
-      #appBootstrap @obj, (@app) =>
-
-        #do test.done
 

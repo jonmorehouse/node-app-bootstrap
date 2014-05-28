@@ -1,7 +1,11 @@
 nodeunit = require 'nodeunit'
 {spawn, exec} = require 'child_process'
 {print} = require 'sys'
-bootstrap = require './test/bootstrap'
+try
+  bootstrap = require './test/bootstrap'
+catch
+  bootstrap = null
+  console.log "can't load test"
 
 runner = (commandString)->
   command = exec commandString

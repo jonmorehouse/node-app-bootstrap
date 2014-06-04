@@ -30,6 +30,7 @@
   "devDependencies": {
     "extend": "^1.2.1",
     "nodeunit": "^0.8.6",
-    "sinon": "^1.9.1"
+    "sinon": "^1.9.1",
+    "test-bootstrap": "git://github.com/jonmorehouse/node-test-bootstrap"
   }
 }

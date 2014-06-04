@@ -1,11 +1,7 @@
 nodeunit = require 'nodeunit'
 {spawn, exec} = require 'child_process'
 {print} = require 'sys'
-try
-  bootstrap = require './test/bootstrap'
-catch
-  bootstrap = null
-  console.log "can't load test"
+ts = require 'test-bootstrap'
 
 runner = (commandString)->
   command = exec commandString
@@ -16,8 +12,7 @@ runner = (commandString)->
 
 task "test", "Run current tests", ->
 
-  reporter = nodeunit.reporters.verbose
-  reporter.run ['test/unit']
+  ts.tasks.nodeunit('test/unit')
 
 task "test-all", "Run all tests", ->
 

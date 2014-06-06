@@ -2,7 +2,8 @@
   "name": "appstrap",
   "version": "0.0.0",
   "description": "A module for bootstrapping servers, distributed workers and other such projects",
-  "main": "js/index.js",
+  "main": "lib/index.coffee",
+  "old_main": "js/index.js",
   "scripts": {
     "prepublish": "cake build",
     "test": "cake test"

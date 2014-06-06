@@ -22,7 +22,6 @@
     "amqp": "^0.2.0",
     "async": "^0.7.0",
     "loggly": "^1.0.4",
-    "node-daemon-trigger": "git://github.com/jonmorehouse/node-daemon-manager",
     "pg": "^3.0.3",
     "redis": "^0.10.1",
     "zerorpc": "~0.9.3"

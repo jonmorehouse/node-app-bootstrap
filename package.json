@@ -24,9 +24,7 @@
     "loggly": "^1.0.4",
     "pg": "^3.0.3",
     "redis": "^0.10.1",
-    "zerorpc": "~0.9.3"
-  },
-  "peerDependencies": {
+    "zerorpc": "~0.9.3",
     "multi-config": "git://github.com/jonmorehouse/node-multi-config"
   },
   "devDependencies": {

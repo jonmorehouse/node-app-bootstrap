@@ -13,6 +13,12 @@
   exports.setUp = function(app, cb) {
     var cObj, client, lObj, missing;
     if (c.loggly == null) {
+      app.log = function() {
+        var args, msg;
+        msg = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        cb = args[args.length - 1];
+        return typeof cb === "function" ? cb() : void 0;
+      };
       return typeof cb === "function" ? cb() : void 0;
     }
     missing = shared.missingParameters(["token", "subdomain", "username", "password", "tags"], c.loggly);

@@ -5,6 +5,9 @@ shared = require "./shared"
 exports.setUp = (app, cb) =>
 
   if not c.loggly?
+    app.log = (msg, args...) ->
+      cb = args[args.length - 1]
+      cb?()
     return cb?()
 
   missing = shared.missingParameters ["token", "subdomain", "username", "password", "tags"], c.loggly

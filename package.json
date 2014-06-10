@@ -25,12 +25,12 @@
     "pg": "^3.0.3",
     "redis": "^0.10.1",
     "zerorpc": "~0.9.3",
-    "multi-config": "git://github.com/jonmorehouse/node-multi-config"
+    "multi-config": "jonmorehouse/node-multi-config"
   },
   "devDependencies": {
     "extend": "^1.2.1",
     "nodeunit": "^0.8.6",
     "sinon": "^1.9.1",
-    "test-bootstrap": "git://github.com/jonmorehouse/node-test-bootstrap"
+    "test-bootstrap": "jonmorehouse/node-test-bootstrap"
   }
 }

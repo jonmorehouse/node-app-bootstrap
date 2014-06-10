@@ -54,7 +54,7 @@
         }
         return _results;
       })();
-      return async.eachSeries(functions, ((function(_this) {
+      return async.each(functions, ((function(_this) {
         return function(method, cb) {
           return method(_this, cb);
         };

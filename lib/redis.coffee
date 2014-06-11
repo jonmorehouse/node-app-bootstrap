@@ -6,6 +6,8 @@ exports.setUp = (app, cb) ->
 
   if not c.redis?
     return cb?()
+  
+  redis ?= require 'redis'
 
   missing = shared.missingParameters ["host", "port"], c.redis
   if missing

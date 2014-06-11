@@ -1,10 +1,11 @@
 c = require 'multi-config'
-zerorpc = require 'zerorpc'
 shared = require "./shared"
+zerorpc = null
 
 exports.setUp = (app, cb) ->
 
   return cb?() if not c.zerorpc?
+  zerorpc ?= require 'zerorpc'
 
   opts = if c.zerorpc.opts? then c.zerorpc.opts else {}
   host = if c.zerorpc.host? then c.zerorpc.host else "tcp://127.0.0.1:4242"

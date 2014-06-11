@@ -1,4 +1,4 @@
-loggly = require 'loggly'
+loggly = null
 c = require 'multi-config'
 shared = require "./shared"
 
@@ -10,6 +10,7 @@ exports.setUp = (app, cb) =>
       cb?()
     return cb?()
 
+  loggly ?= require 'loggly'
   missing = shared.missingParameters ["token", "subdomain", "username", "password", "tags"], c.loggly
   if missing 
     return cb new Error missing

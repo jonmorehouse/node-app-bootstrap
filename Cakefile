@@ -12,7 +12,7 @@ runner = (commandString)->
 
 task "test", "Run current tests", ->
 
-  ts.tasks.nodeunit('test/unit')
+  ts.tasks.nodeunit 'test/unit'
 
 task "test-all", "Run all tests", ->
 
@@ -25,5 +25,5 @@ task "lint", "Lint project", ->
 
 task "build", "Build js library", ->
 
-  runner "coffee -c -o js lib"
+  runner "coffee -c --bare -o js lib"
 

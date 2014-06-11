@@ -165,6 +165,7 @@ queue =
 exports.setUp = (@app, cb) =>
   if not c.rabbit?
     return cb? null, @app
+  amqp ?= require 'amqp'
   # call all setUp methods
   async.waterfall [connection.setUp, exchange.setUp, queue.setUp], (err) =>
     return cb? err if err?

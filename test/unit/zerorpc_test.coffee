@@ -52,5 +52,3 @@ module.exports =
       appBootstrap {zerorpc: {host: "tcp://127.0.0.1:4242"}}, (@app) =>
         clientTest @app, test
 
-
-

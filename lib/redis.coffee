@@ -1,5 +1,5 @@
 c = require 'multi-config'
-redis = require 'redis'
+redis = null
 shared = require "./shared"
 
 exports.setUp = (app, cb) ->
@@ -20,6 +20,7 @@ exports.tearDown = (app, cb) ->
   if not app.redis?
     return cb?()
   
+  redis ?= require 'redis'
   app.redis.end()
   delete app.redis
   cb?()

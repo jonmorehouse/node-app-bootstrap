@@ -12,6 +12,9 @@ exports.setUp = function(app, cb) {
   if (c.redis == null) {
     return typeof cb === "function" ? cb() : void 0;
   }
+  if (redis == null) {
+    redis = require('redis');
+  }
   missing = shared.missingParameters(["host", "port"], c.redis);
   if (missing) {
     return cb(new Error(missing));

@@ -32,7 +32,6 @@ module.exports =
 
     # shutdown app and clean up zerorpc server
     @app.close => 
-      p "ASDF"
       @server.close()
       cb?()
 
